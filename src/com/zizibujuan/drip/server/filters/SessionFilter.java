@@ -1,4 +1,4 @@
-package com.zizibujuan.drip.server.configurator.servlet;
+package com.zizibujuan.drip.server.filters;
 
 import java.io.IOException;
 
@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import com.zizibujuan.useradmin.server.model.UserInfo;
 import com.zizibujuan.useradmin.server.service.UserService;
 import com.zizibujuan.useradmin.server.servlets.UserAdminServiceHolder;
-import com.zizibujuan.drip.server.servlet.ServiceHolder;
 import com.zizibujuan.drip.server.util.constant.CookieConstants;
 import com.zizibujuan.drip.server.util.servlet.CookieUtil;
 import com.zizibujuan.drip.server.util.servlet.RequestUtil;
