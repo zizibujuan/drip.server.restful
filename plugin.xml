@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+ <extension
+         point="org.eclipse.equinox.http.registry.filters">
+      
+		<!-- 判断用户是否已经登录，即是否有权限访问某个内容，现在这里卡一下，后面的处理就少一些 -->
+      <filter
+            alias="/"
+            class="com.zizibujuan.drip.server.filters.SessionFilter">
+      </filter>
+         
+      <filter
+            alias="/"
+            class="com.zizibujuan.drip.server.filters.RestHtmlFilter">
+      </filter>
+      
+      <filter
+            alias="/"
+            class="com.zizibujuan.drip.server.filters.WelcomeFileFilter">
+      </filter>
+      
+      <!-- 是不是放在前面更合适呢？ -->
+      <filter
+            alias="/"
+            class="com.zizibujuan.drip.server.filters.AccessLogFilter">
+      </filter>
+      
+      <filter
+            alias="/"
+            class="org.eclipse.jetty.servlets.GzipFilter">
+      </filter>
+      
+   </extension>
+   
+</plugin>
