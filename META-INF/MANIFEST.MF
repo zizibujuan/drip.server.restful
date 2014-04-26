@@ -1,16 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: drip.server.filters
-Bundle-SymbolicName: com.zizibujuan.drip.server.filters;singleton:=true
+Bundle-SymbolicName: com.zizibujuan.drip.server.restful
 Bundle-Version: 0.0.1.qualifier
-Bundle-Activator: com.zizibujuan.drip.server.filters.Activator
+Bundle-Activator: com.zizibujuan.drip.server.restful.Activator
 Bundle-Vendor: zizibujuan.com
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.zizibujuan.drip.server.util.constant,
  com.zizibujuan.drip.server.util.servlet,
- com.zizibujuan.useradmin.server.model,
- com.zizibujuan.useradmin.server.service,
- com.zizibujuan.useradmin.server.servlets,
  javax.servlet;version="2.6.0",
  javax.servlet.http;version="2.6.0",
  org.osgi.framework;version="1.3.0",

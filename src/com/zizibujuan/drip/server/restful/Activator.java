@@ -1,4 +1,4 @@
-package com.zizibujuan.drip.server.filters;
+package com.zizibujuan.drip.server.restful;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
