@@ -50,20 +50,32 @@ public class RestHtmlFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) req;
 		HttpServletResponse httpResponse = (HttpServletResponse) resp;
 
-		
 		// TODO:先从map中查找，找不到之后，走默认的规则。
 		
 		// 判断contextPath/ServletPath与第一个pathInfo是否一致。
 		
 		// 因为约定rest名与文件夹名相同，所以servletPath中存储的通常是servlet的别名。
+		
+		String servletPath = httpRequest.getServletPath();
+		
+		String pathInfo = httpRequest.getPathInfo();
+		IPath path = (pathInfo == null ? Path.ROOT : new Path(pathInfo));
+		if(servletPath.isEmpty() && path.segmentCount() == 0){
+			// 解决循环请求的bug, 为什么执行完logout之后，会发一个servelt为"", path为"/"的请求呢？
+			return;
+		}
+		System.out.println("servletPath:" + servletPath + "; pathInfo:" + pathInfo);
+		
 		if(!RequestUtil.isAjax(httpRequest)){
-			String servletPath = httpRequest.getServletPath();
-			String pathInfo = httpRequest.getPathInfo();
-			IPath path = (pathInfo == null ? Path.ROOT : new Path(pathInfo));
-			
 			String realFilePath = urlMapper.getResourcePath(servletPath, path);
 			if(realFilePath != null){
 				httpRequest.getRequestDispatcher(realFilePath).forward(httpRequest, httpResponse);
+				return;
+			}
+		}else{
+			String newPath = urlMapper.getNewPath(servletPath, path);
+			if(!newPath.equals(servletPath)){
+				httpRequest.getRequestDispatcher(newPath).forward(httpRequest, httpResponse);
 				return;
 			}
 		}
@@ -75,5 +87,4 @@ public class RestHtmlFilter implements Filter {
 	public void destroy() {
 		urlMapper = null;
 	}
-
 }

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: drip.server.filters
-Bundle-SymbolicName: com.zizibujuan.drip.server.restful
+Bundle-SymbolicName: com.zizibujuan.drip.server.restful;singleton:=true
 Bundle-Version: 0.0.1.qualifier
 Bundle-Activator: com.zizibujuan.drip.server.restful.Activator
 Bundle-Vendor: zizibujuan.com
@@ -12,5 +12,6 @@ Import-Package: com.zizibujuan.drip.server.util.constant,
  javax.servlet.http;version="2.6.0",
  org.osgi.framework;version="1.3.0",
  org.slf4j;version="1.6.4"
-Require-Bundle: org.eclipse.core.runtime
+Require-Bundle: org.eclipse.core.runtime,
+ org.junit;bundle-version="4.11.0"
 Export-Package: com.zizibujuan.drip.server.restful

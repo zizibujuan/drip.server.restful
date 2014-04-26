@@ -1,11 +1,14 @@
 package com.zizibujuan.drip.server.restful;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IPath;import org.eclipse.core.runtime.Path;
+
 
 /**
  * rest api与网站资源映射器
@@ -19,6 +22,7 @@ public class UrlMapper {
 	private static final String LIST_HTML = "/list.html";
 	private static final String HTML = ".html";
 	
+	// 默认的action为show，可以不显示
 	private static final String ACTION_NEW = "new";
 	private static final String ACTION_EDIT = "edit";
 	
@@ -66,6 +70,8 @@ public class UrlMapper {
 		
 		
 		authPageRestUrls.add("/drip/dashboard.html");
+	
+		this.addPaths();
 	}
 	
 	/**
@@ -181,5 +187,41 @@ public class UrlMapper {
 		}
 		
 		return false;
+	}
+
+	private List<IPath> paths = new ArrayList<>();
+	private void addPaths(){
+		String[] urls = {"{courseId}/lessons"};
+		
+		paths = Arrays.asList(urls).stream().map(value -> {
+			IPath path = new Path(value);
+			return path;
+		}).collect(Collectors.toList());
+	}
+	
+	public String getNewPath(String servletPath, IPath path) {
+		if(servletPath != null && !servletPath.isEmpty()){
+			return servletPath;
+		}
+		
+		// TODO:使用正则表达式？
+		boolean match = paths.stream().anyMatch(value -> {
+			if(path.segmentCount() != value.segmentCount()){
+				return false;
+			}
+			if(value.lastSegment().equals(path.lastSegment())){
+				return true;
+			}
+			return false;
+		});
+		
+		if(match){
+			StringBuilder sb = new StringBuilder("/");
+			sb.append(path.lastSegment());
+			sb.append(path.removeLastSegments(1));
+			return sb.toString();
+		}else{
+			return path.toPortableString();
+		}
 	}
 }
