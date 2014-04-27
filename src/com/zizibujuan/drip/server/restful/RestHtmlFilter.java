@@ -72,12 +72,6 @@ public class RestHtmlFilter implements Filter {
 				httpRequest.getRequestDispatcher(realFilePath).forward(httpRequest, httpResponse);
 				return;
 			}
-		}else{
-			String newPath = urlMapper.getNewPath(servletPath, path);
-			if(!newPath.equals(servletPath)){
-				httpRequest.getRequestDispatcher(newPath).forward(httpRequest, httpResponse);
-				return;
-			}
 		}
 		
 		chain.doFilter(req, resp);

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: drip.server.filters
-Bundle-SymbolicName: com.zizibujuan.drip.server.restful;singleton:=true
+Bundle-SymbolicName: com.zizibujuan.drip.server.restful
 Bundle-Version: 0.0.1.qualifier
 Bundle-Activator: com.zizibujuan.drip.server.restful.Activator
 Bundle-Vendor: zizibujuan.com
