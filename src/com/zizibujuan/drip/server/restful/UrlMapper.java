@@ -29,6 +29,9 @@ public class UrlMapper {
 	private Map<String, String> editUrlMap; // 跳转到编辑页面
 	private Map<String, String> viewUrlMap; // 跳转到查看详情页面
 	
+	private Map<String, String> nestedNewUrlMap; // 嵌套的资源
+	private Map<String, String> nestedEditUrlMap; // 嵌套的资源
+	
 	private Map<String, String> homeUrlMap; // 放置各种内容的内容首页链接，如题库首页，笔记项目首页等
 	
 	// 保存需要授权的页面和操作，而默认凡是new和edit操作，都需要用户登录。
@@ -49,12 +52,17 @@ public class UrlMapper {
 		newUrlMap.put("/exercises", "/drip/exercises/new.html");// 为了能看到所有的资源，不走约定，都要配置。
 		newUrlMap.put("/files", "/doc/files/new.html");
 		newUrlMap.put("/projects", "/doc/projects/new.html");
+		newUrlMap.put("/courses", "/teach/courses/new.html");
 		
+		nestedNewUrlMap = new HashMap<String, String>();
+		nestedNewUrlMap.put("lessons", "/teach/lessons/new.html");
 		
 		// edit
 		editUrlMap = new HashMap<String, String>();
 		editUrlMap.put("/files", "/doc/files/edit.html");
 		editUrlMap.put("/exercises", "/drip/exercises/edit.html");
+		
+		nestedEditUrlMap = new HashMap<String, String>();
 		
 		viewUrlMap = new HashMap<String, String>();
 		// exercises/id
@@ -104,20 +112,39 @@ public class UrlMapper {
 			return ROOT_WEB + servletPath + LIST_HTML;
 		}
 		
-		String firstSegment = path.segment(0);
-		if(firstSegment.equals(ACTION_NEW)){
-			// TODO：需要授权
-			if(newUrlMap.containsKey(servletPath)){
-				return newUrlMap.get(servletPath);
+		if(segmentCount == 1){
+			String action = path.segment(0);
+			if(action.equals(ACTION_NEW)){
+				// TODO：需要授权
+				if(newUrlMap.containsKey(servletPath)){
+					return newUrlMap.get(servletPath);
+				}
+			}
+			
+			if(action.equals(ACTION_EDIT)){
+				// TODO：需要授权
+				if(editUrlMap.containsKey(servletPath)){
+					return editUrlMap.get(servletPath);
+				}
+			}
+		}else if(segmentCount == 3){
+			String action = path.lastSegment();
+			String resName = path.segment(1);
+			if(action.equals(ACTION_NEW)){
+				// TODO：需要授权
+				if(nestedNewUrlMap.containsKey(resName)){
+					return nestedNewUrlMap.get(resName);
+				}
+			}
+			
+			if(action.equals(ACTION_EDIT)){
+				// TODO：需要授权
+				if(nestedEditUrlMap.containsKey(resName)){
+					return nestedEditUrlMap.get(resName);
+				}
 			}
 		}
 		
-		if(firstSegment.equals(ACTION_EDIT)){
-			// TODO：需要授权
-			if(editUrlMap.containsKey(servletPath)){
-				return editUrlMap.get(servletPath);
-			}
-		}
 		
 		if(listUrlMap.containsKey(servletPath)){
 			return listUrlMap.get(servletPath);
